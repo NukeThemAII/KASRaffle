@@ -174,6 +174,35 @@ Acceptance:
 - forge tests pass; slither clean; UI builds; manual e2e on testnet for this feature.
 ```
 
+## Kasplex testnet RPC
+
+Network Name
+
+Kasplex Network Testnet​
+
+Explorer URL
+
+explorer.testnet.kasplextest.xyz
+
+RPC URL
+
+rpc.kasplextest.xyz
+
+Native Token
+
+name: Bridged Kas
+
+symbol: KAS
+
+decimals: 18
+
+GasPrice/Basefee
+
+2000GWEI
+
+ChainID: 167012
+
+Testnet (safe) kasplex private (deployer) key: cf5643a2cce8338eb4dc88b6b0d7cdf46e50a1c58ed1937f0cc8135c2b47f94c
 ---
 
 
