@@ -87,8 +87,10 @@ Kasplex Mainnet:
 ### Install
 
 ```bash
-pnpm i
+pnpm install
 cd packages/forge && forge install openzeppelin/openzeppelin-contracts@v5.0.2
+# Also grab the tooling utilities used in tests/scripts
+forge install foundry-rs/forge-std@v1.9.5
 ```
 
 ### Environment
@@ -99,10 +101,13 @@ Create `.env` files:
 # packages/next/.env.local
 NEXT_PUBLIC_RPC_URL_TESTNET="https://<kasplex-testnet-rpc>"
 NEXT_PUBLIC_RPC_URL_MAINNET="https://<kasplex-mainnet-rpc>"
-NEXT_PUBLIC_CHAIN_ID_TESTNET=<id>
-NEXT_PUBLIC_CHAIN_ID_MAINNET=<id>
-NEXT_PUBLIC_EXPLORER_TESTNET="https://explorer.testnet.kasplex.io"
-NEXT_PUBLIC_EXPLORER_MAINNET="https://explorer.kasplex.io"
+NEXT_PUBLIC_CHAIN_ID_TESTNET=167012
+NEXT_PUBLIC_CHAIN_ID_MAINNET=311111
+NEXT_PUBLIC_EXPLORER_TESTNET="https://explorer.testnet.kasplex.xyz"
+NEXT_PUBLIC_EXPLORER_MAINNET="https://explorer.kasplex.xyz"
+NEXT_PUBLIC_KASRAFFLE_TESTNET="0x..."
+NEXT_PUBLIC_KASRAFFLE_MAINNET="0x..."
+NEXT_PUBLIC_WALLETCONNECT_ID="<walletconnect-project-id>"
 ```
 
 ```
@@ -125,12 +130,26 @@ forge build
 forge test -vv
 ```
 
+> Foundry expects `solc 0.8.24` to be available locally. If the environment blocks outbound downloads, run `foundryup` in a networked shell first so the compiler is cached.
+
 ### Run Frontend
 
 ```bash
-cd packages/next
-pnpm dev
+pnpm --filter kasraffle-web dev
 ```
+
+The frontend currently exposes:
+
+* `/` — Active round dashboard with ticket purchases, lifecycle helpers, and claim prompts.
+* `/history` — Browse past rounds with winner breakdowns.
+* `/leaderboard` — Slice-based view of recent winners and largest buyers (augment with event indexing for deeper analytics).
+* `/admin` — Withdraw fees, manage the fee vault, pause/unpause, and update raffle parameters via `setParams`.
+
+### Troubleshooting
+
+* **Offline / sandboxed shells** — The included stubs for `forge-std` allow contracts to compile, but you should replace them with the official dependency (`forge install foundry-rs/forge-std@v1.9.5`) before running tests locally.
+* **Compiler fetching** — If `forge` cannot download `solc 0.8.24`, run `foundryup` from an internet-enabled machine once; afterwards, copy the cached compiler into the sandbox.
+* **Frontend deps** — `pnpm install` requires access to `registry.npmjs.org`. In air-gapped environments, pre-bundle the workspace dependencies or configure an internal npm mirror.
 
 ---
 

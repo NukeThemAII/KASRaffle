@@ -1,0 +1,9 @@
+{
+  "name": "kasraffle-monorepo",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test:contracts": "forge test -C packages/forge -vv",
+    "fmt:contracts": "forge fmt -C packages/forge"
+  }
+}
